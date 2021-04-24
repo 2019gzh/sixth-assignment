@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>level2</title>
+</head>
+
+<body>
+    <script>
+        //封装一个函数，参数为：url：地址，data：请求参数，type：请求类型，callback：回调函数。
+        function ajax(url, data, type, callback) {
+            var xhr = new XMLHttpRequest();
+            var str = toString(data);
+            if (type.toLowerCase() === "get") {
+                xhr.open(type, url + "?" + str, true);
+                xhr.send();
+            }
+            else if (type.toLowerCase() === "post") {
+                xhr.open(type, url, true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send(str);
+            }
+            else {
+                console.log("请输入正确的请求方式");
+                return;
+            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    if (xhr.status == 200 && xhr.status < 300) {
+                        var res = JSON.parse(xhr.responseText);
+                        res2 = res.result;
+                        callback(res2);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
